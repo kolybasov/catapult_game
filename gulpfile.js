@@ -8,6 +8,7 @@ var gulp            = require('gulp'),
     sourcemaps      = require('gulp-sourcemaps'),
     connect         = require('gulp-connect'),
     imageminOptipng = require('imagemin-optipng'),
+    gulpEnv         = require('gulp-env'),
 
     // Input files
     input = {
@@ -33,6 +34,15 @@ gulp.task('default', [
   'build-images',
   'connect',
   'watch'
+]);
+
+// Build production
+gulp.task('build-prod', [
+  'env-prod',
+  'build-html',
+  'build-coffee',
+  'build-styl',
+  'build-images'
 ]);
 
 // Build stylus styles
@@ -82,6 +92,11 @@ gulp.task('connect', function() {
     root: output.html,
     livereload: true
   });
+});
+
+// Set gulp env to prod
+gulp.task('env-prod', function(){
+  // gutil.env.type = 'production';
 });
 
 // Watch files
