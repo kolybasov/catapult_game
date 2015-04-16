@@ -40,7 +40,7 @@ gulp.task('default', [
   'build-html',
   'build-coffee',
   'build-styl',
-  // 'build-images',
+  'build-images',
   'connect',
   'watch'
 ]);
