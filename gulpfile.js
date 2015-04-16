@@ -10,6 +10,10 @@ var gulp            = require('gulp'),
     imageminOptipng = require('imagemin-optipng'),
     gulpEnv         = require('gulp-env'),
     plumber         = require('gulp-plumber'),
+    babel           = require('gulp-babel'),
+    babelify        = require('babelify'),
+    browserify      = require('browserify'),
+    source          = require('vinyl-source-stream'),
 
     // Input files
     input = {
@@ -36,7 +40,7 @@ gulp.task('default', [
   'build-html',
   'build-coffee',
   'build-styl',
-  'build-images',
+  // 'build-images',
   'connect',
   'watch'
 ]);
@@ -58,7 +62,6 @@ gulp.task('build-styl', function() {
     .pipe(sourcemaps.init())
     .pipe(styl({use: [jeet()]}))
     .pipe(concat('styles.css'))
-    //only uglify if gulp is ran with '--type production'
     .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(output.css))
@@ -72,7 +75,6 @@ gulp.task('build-coffee', function() {
     .pipe(sourcemaps.init())
     .pipe(coffee())
     .pipe(concat('app.js'))
-    //only uglify if gulp is ran with '--type production'
     .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(output.js))
