@@ -226,18 +226,17 @@ class Ball extends Sprite
     super(ctx, obj)
     @radius = obj.radius
     @strength = obj.strength
+    @vel =
+      x: 4.0
+      y: @strength/10
+    @gravity = 0.02
 
   draw: ->
+    @vel.y += @gravity
+    @pos.x += @vel.x
+    @pos.y += @vel.y
     @ctx.beginPath()
     @ctx.arc(@pos.x, @pos.y, @radius, 0, 2 * Math.PI, false)
-    @pos.x += 15
-    dist = 1920
-    if @pos.x < (dist / 2)
-      x = dist / 2 - @pos.x
-      x = -x
-    else
-      x = @pos.x - dist / 2
-    @pos.y = -1/(@strength * 100) * Math.pow(x, 2) + 640
     @ctx.fillStyle = 'red'
     @ctx.fill()
 
