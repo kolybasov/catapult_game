@@ -236,7 +236,7 @@ class Ball extends Sprite
 
   draw: ->
     @ctx.beginPath()
-    @ctx.arc(@pos.x, @pos.y, @radius, 0, 2 * Math.PI, false)
+    @ctx.arc(@pos.x + @radius, @pos.y + @radius / 2, @radius, 0, 2 * Math.PI, false)
     @vel.y += @gravity
     @pos.x += @vel.x
     @pos.y += @vel.y
