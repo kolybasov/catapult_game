@@ -8,12 +8,9 @@ var gulp            = require('gulp'),
     sourcemaps      = require('gulp-sourcemaps'),
     connect         = require('gulp-connect'),
     imageminOptipng = require('imagemin-optipng'),
-    gulpEnv         = require('gulp-env'),
     plumber         = require('gulp-plumber'),
-    babel           = require('gulp-babel'),
-    babelify        = require('babelify'),
-    browserify      = require('browserify'),
-    source          = require('vinyl-source-stream'),
+    cssmin          = require('gulp-cssmin'),
+    ghPages         = require('gulp-gh-pages'),
 
     // Input files
     input = {
@@ -47,13 +44,18 @@ gulp.task('default', [
 
 // Build production
 gulp.task('build-prod', [
-  'env-prod',
   'build-vendor',
   'build-html',
   'build-coffee',
   'build-styl',
   'build-images'
 ]);
+
+// Deploy to gh-pages
+gulp.task('gh-pages', ['build-prod'], function(){
+  return gulp.src('./dist/**/*')
+    .pipe(ghPages());
+});
 
 // Build stylus styles
 gulp.task('build-styl', function() {
@@ -62,7 +64,7 @@ gulp.task('build-styl', function() {
     .pipe(sourcemaps.init())
     .pipe(styl({use: [jeet()]}))
     .pipe(concat('styles.css'))
-    .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+    .pipe(gutil.env.type === 'production' ? cssmin() : gutil.noop())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(output.css))
     .pipe(connect.reload());
@@ -102,11 +104,6 @@ gulp.task('connect', function() {
     root: output.html,
     livereload: true
   });
-});
-
-// Set gulp env to prod
-gulp.task('env-prod', function(){
-  // gutil.env.type = 'production';
 });
 
 // Build vendor assets
