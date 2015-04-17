@@ -48,7 +48,10 @@ class Game
   _resizeCanvas: ->
     @canvas.style.height = "#{@canvas.parentNode.clientHeight}px"
     @canvas.style.width = "#{parseInt(@canvas.style.height) / 9 * 16}px"
-    @canvas.parentNode.style.maxWidth = @canvas.style.width
+    if parseInt(@canvas.style.width) > @canvas.parentNode.clientWidth
+      @canvas.style.width = "#{@canvas.parentNode.clientHeight}px"
+      @canvas.style.height = "#{parseInt(@canvas.style.width) / 16 * 9}px"
+    # @canvas.parentNode.style.maxWidth = @canvas.style.width
     @ctx.w = parseInt(@canvas.style.width)
     @ctx.h = parseInt(@canvas.style.height)
 
@@ -229,14 +232,14 @@ class Ball extends Sprite
     @vel =
       x: 4.0
       y: @strength/10
-    @gravity = 0.02
+    @gravity = 0.03
 
   draw: ->
+    @ctx.beginPath()
+    @ctx.arc(@pos.x, @pos.y, @radius, 0, 2 * Math.PI, false)
     @vel.y += @gravity
     @pos.x += @vel.x
     @pos.y += @vel.y
-    @ctx.beginPath()
-    @ctx.arc(@pos.x, @pos.y, @radius, 0, 2 * Math.PI, false)
     @ctx.fillStyle = 'red'
     @ctx.fill()
 
