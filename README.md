@@ -1,4 +1,6 @@
 # Catapult game
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/kolybasov/catapult_game.svg)](https://greenkeeper.io/)
 Simple game with catapult mechanics. Works on mobiles and desktops.
 
 ## Requirments
